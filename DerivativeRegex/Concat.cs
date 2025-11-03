@@ -5,8 +5,10 @@ public class Concat(RegularExpression left, RegularExpression right) : RegularEx
     private RegularExpression Left { get; } = left;
     private RegularExpression Right { get; } = right;
 
+    // 連接なので左側と右側の AND
     public override bool HasEpsilon() => Left.HasEpsilon() && Right.HasEpsilon();
 
+    // TODO: 解釈を確認
     public override RegularExpression Derive(char c)
     {
         if (!Left.HasEpsilon())
@@ -17,13 +19,3 @@ public class Concat(RegularExpression left, RegularExpression right) : RegularEx
         return new Or(new Concat(Left.Derive(c), Right), Right.Derive(c));
     }
 }
-/*
- *   def derive(self, c: str) -> Regex:
-     if self.l1.is_contain_eps():
-       left = Concat(self.l1.derive(c), self.l2)
-       right = self.l2.derive(c)
-       return Or(left, right)
-     else:
-       return Concat(self.l1.derive(c), self.l2)
-     
- */
